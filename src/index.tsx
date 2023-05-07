@@ -3,15 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import NavBar from "./components/NavBar";
 import reportWebVitals from "./reportWebVitals";
+import Task from "./components/Task";
+import NavBar from "./components/NavBar";
+import Layout from "./components/Layout";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <NavBar />
     <Register />
   </React.StrictMode>
 );
