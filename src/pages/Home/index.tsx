@@ -1,3 +1,15 @@
+import Layout from '../../components/Layout';
+import Task from '../../components/Task';
+
 export default function Home() {
-  return;
+  return (
+    <Layout>
+      <div>
+        <Task />
+        <Task />
+        <Task />
+        <Task />
+      </div>
+    </Layout>
+  );
 }

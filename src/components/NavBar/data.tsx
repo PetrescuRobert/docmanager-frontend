@@ -2,6 +2,7 @@ export type NavBarButtonProps = {
   Icon: React.ElementType;
   name: string;
   active: boolean;
+  path: string;
 };
 
 export const homeIcon = (
