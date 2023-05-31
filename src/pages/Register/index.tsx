@@ -1,4 +1,59 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { API, REGISTER_ROUTE } from "../../data/CONSTANTS";
+import axios from "axios";
+
 export default function Register() {
+  //i want a function that handles the register
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [repeatPassword, setRepeatPassword] = useState("");
+  const navigate = useNavigate();
+
+  async function handleRegister(
+    firstName: string,
+    lastName: string,
+    emailAddress: string,
+    password: string,
+    repeatPassword: string
+  ) {
+    //i want to send the values to the backend
+    //i want to get the response from the backend
+    //if register is successful, i want to redirect to the login page
+    //if register is unsuccessful, i want to display an error message
+    if (password !== repeatPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+    let data = JSON.stringify({
+      firstName: firstName,
+      lastName: lastName,
+      email: emailAddress,
+      password: password,
+    });
+    console.log(data);
+    let config = {
+      method: "post",
+      maxBodyLength: Infinity,
+      url: API + REGISTER_ROUTE,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: data,
+    };
+    const response = await axios
+      .request(config)
+      .then((response) => {
+        navigate("/login");
+      })
+      .catch((response) => {
+        if (response.response.status === 409) {
+          alert("Email already exists");
+        }
+      });
+  }
   return (
     <>
       {/*
@@ -16,7 +71,19 @@ export default function Register() {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleRegister(
+                firstName,
+                lastName,
+                emailAddress,
+                password,
+                repeatPassword
+              );
+            }}
+          >
             <div>
               <div className="mt-2 flex flex-row">
                 <div className="basis-1/2 mr-2">
@@ -31,6 +98,8 @@ export default function Register() {
                     name="firstName"
                     type="text"
                     required
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -46,6 +115,8 @@ export default function Register() {
                     name="lastName"
                     type="text"
                     required
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
@@ -66,6 +137,8 @@ export default function Register() {
                   type="email"
                   autoComplete="email"
                   required
+                  value={emailAddress}
+                  onChange={(e) => setEmailAddress(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -88,6 +161,8 @@ export default function Register() {
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
@@ -110,6 +185,8 @@ export default function Register() {
                   type="password"
                   autoComplete="current-password"
                   required
+                  value={repeatPassword}
+                  onChange={(e) => setRepeatPassword(e.target.value)}
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>

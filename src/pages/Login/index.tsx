@@ -1,25 +1,51 @@
-import { useState } from 'react';
-import axios from 'axios';
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API, LOGIN_ROUTE } from "../../data/CONSTANTS";
+import UserContext, { UserDetails } from "../../contexts/UserContext";
+import { LoginRequest } from "../../data/types";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigation = useNavigate();
+  //i want to acces the context here
+  const { setUser } = useContext(UserContext);
+
+  //I want to write a function that will handle the login
 
   async function handleLogIn(email: string, password: string) {
     let data = JSON.stringify({ email: email, password: password });
     let config = {
-      method: 'post',
+      method: "post",
       maxBodyLength: Infinity,
-      url: '//localhost:8080/api/auth/authenticate',
+      url: API + LOGIN_ROUTE,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       data: data,
     };
+
     const response = await axios
-      .request(config)
-      .then((response) => console.log(response))
-      .catch((response) => console.log(response));
+      .request<LoginRequest>(config)
+      .then((response) => {
+        let token = response.data.token;
+        let user = {
+          id: response.data.userDetails.id,
+          firstName: response.data.userDetails.firstName,
+          lastName: response.data.userDetails.lastName,
+          email: response.data.userDetails.email,
+          jwtToken: response.data.token,
+        };
+        //store user in local storage
+        localStorage.setItem("user", JSON.stringify(user));
+        setUser(user);
+      })
+      .catch((response) => {
+        if (response.response.status === 403) {
+          alert("Invalid credentials");
+        }
+      });
   }
 
   return (

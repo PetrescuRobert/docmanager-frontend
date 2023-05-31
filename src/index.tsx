@@ -1,25 +1,19 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import reportWebVitals from './reportWebVitals';
-import Home from './pages/Home';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import Documents from './pages/Documents';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 root.render(
+  //i want to store user state here and pass it down to the components with useContext
+
   <React.StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/documents" element={<Documents />} />
-      </Routes>
+      <App />
     </BrowserRouter>
   </React.StrictMode>
 );
