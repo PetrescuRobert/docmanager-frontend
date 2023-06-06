@@ -1,8 +1,14 @@
 import Pagination from '../../Pagination';
 import Search from '../../Search';
-import { TableDocumentsProps } from './data';
+import { Document } from '../../../data/types';
 
-export default function DocumentsTable({ columns, rows }: TableDocumentsProps) {
+export default function DocumentsTable({
+  columns,
+  rows,
+}: {
+  columns: string[];
+  rows: Document[];
+}) {
   return (
     <div className="relative overflow-x-auto mx-2">
       <Search />
@@ -30,7 +36,7 @@ export default function DocumentsTable({ columns, rows }: TableDocumentsProps) {
         </thead>
         <tbody>
           {rows.map((row) => (
-            <tr className="bg-white border-b hover:bg-gray-50">
+            <tr className="bg-white border-b hover:bg-gray-50" key={row.id}>
               <td className="w-4 p-4">
                 <div className="flex items-center">
                   <input
@@ -47,14 +53,15 @@ export default function DocumentsTable({ columns, rows }: TableDocumentsProps) {
                 scope="row"
                 className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
               >
-                {row.name}
+                {row.docName}
               </th>
-              <td className="px-6 py-4">{row.color}</td>
-              <td className="px-6 py-4">{row.category}</td>
-              <td className="px-6 py-4">Yes</td>
-              <td className="px-6 py-4">Yes</td>
-              <td className="px-6 py-4">${row.price}</td>
-              <td className="px-6 py-4">3.0 lb.</td>
+              <td className="px-6 py-4">{row.docType}</td>
+              <td className="px-6 py-4">{row.uploadDate}</td>
+              <td className="px-6 py-4">
+                {row.finishDate ? row.finishDate : 'In progress'}
+              </td>
+              <td className="px-6 py-4">download</td>
+              <td className="px-6 py-4">{row.author.email}</td>
               <td className="flex items-center px-6 py-4 space-x-3">
                 <a
                   href="#"
