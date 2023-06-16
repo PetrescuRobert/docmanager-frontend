@@ -1,13 +1,13 @@
-import { useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import { API, LOGIN_ROUTE } from '../../data/CONSTANTS';
-import UserContext, { UserDetails } from '../../contexts/UserContext';
-import { LoginRequest } from '../../data/types';
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { API, LOGIN_ROUTE } from "../../data/CONSTANTS";
+import UserContext, { UserDetails } from "../../contexts/UserContext";
+import { LoginRequest } from "../../data/types";
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigate();
   //i want to acces the context here and the use the setUser function to set the user state
   const userContext = useContext(UserContext);
@@ -17,11 +17,11 @@ export default function Login() {
   async function handleLogIn(email: string, password: string) {
     let data = JSON.stringify({ email: email, password: password });
     let config = {
-      method: 'post',
+      method: "post",
       maxBodyLength: Infinity,
       url: API + LOGIN_ROUTE,
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       data: data,
     };
@@ -38,17 +38,18 @@ export default function Login() {
           email: response.data.userDetails.email,
           jwtToken: response.data.token,
           role: response.data.userDetails.role,
+          department: response.data.userDetails.department,
         };
         //store user in local storage
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem("user", JSON.stringify(user));
         //set the user state
         userContext.setUser(user);
         //navigate to home page
-        navigation('/');
+        navigation("/");
       })
       .catch((response) => {
         if (response.response.status === 403) {
-          alert('Invalid credentials');
+          alert("Invalid credentials");
         }
       });
   }

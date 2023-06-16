@@ -1,13 +1,17 @@
-import axios from 'axios';
-import { API, DOWNLOAD_DOCUMENT_ROUTE } from '../../data/CONSTANTS';
-import { Document } from '../../data/types';
-import { link } from 'fs';
-import { useContext } from 'react';
-import UserContext from '../../contexts/UserContext';
+import axios from "axios";
+import { API, DOWNLOAD_DOCUMENT_ROUTE } from "../../data/CONSTANTS";
+import { AttachedDocumentDto, Document } from "../../data/types";
+import { link } from "fs";
+import { useContext } from "react";
+import UserContext from "../../contexts/UserContext";
 
 //function component <DownloadDocumentButton key={document.id} document={document} />
 
-export default function DownloadDocumentButton({ doc }: { doc: Document }) {
+export default function DownloadDocumentButton({
+  doc,
+}: {
+  doc: Document | AttachedDocumentDto;
+}) {
   //get the user from userContext
   const { user } = useContext(UserContext);
   //function that will handle the document download
@@ -16,17 +20,17 @@ export default function DownloadDocumentButton({ doc }: { doc: Document }) {
       const response = await axios.get(
         API + DOWNLOAD_DOCUMENT_ROUTE + docName,
         {
-          responseType: 'blob',
+          responseType: "blob",
           headers: {
-            Authorization: 'Bearer ' + user?.jwtToken,
+            Authorization: "Bearer " + user?.jwtToken,
           },
         }
       );
-      const file = new Blob([response.data], { type: 'application/pdf' });
+      const file = new Blob([response.data], { type: "application/pdf" });
       const fileURL = URL.createObjectURL(file);
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = fileURL;
-      link.setAttribute('download', docName);
+      link.setAttribute("download", docName);
       link.click();
       URL.revokeObjectURL(fileURL);
     } catch (error) {

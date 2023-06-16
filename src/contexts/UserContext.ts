@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction, createContext } from 'react';
-//this context will be linked to a state that will be used to store the user's data
-//i want to create an interface for the user's data
+import { Dispatch, SetStateAction, createContext } from "react";
+import { Department } from "../data/types";
+
 export interface UserDetails {
   id: number;
   firstName: string;
@@ -8,6 +8,7 @@ export interface UserDetails {
   email: string;
   jwtToken: string;
   role: string;
+  department: Department;
 }
 
 interface UserContextInterface {

@@ -5,6 +5,7 @@ export interface LoginRequest {
     lastName: string;
     id: number;
     role: string;
+    department: Department;
   };
   token: string;
 }
@@ -45,4 +46,19 @@ export interface TaskDto {
   author: Employee;
   relatedDocuments: Document[];
   postDate: string;
+}
+export interface TaskUpdateDto {
+  id: number;
+  message: string;
+  postDate: string;
+  attachedDocument: AttachedDocumentDto;
+}
+export interface AttachedDocumentDto {
+  attachedDocumentId: number;
+  docName: string;
+  path: string;
+}
+export interface Department {
+  id: number;
+  name: string;
 }

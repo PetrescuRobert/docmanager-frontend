@@ -1,9 +1,17 @@
-import { useContext } from 'react';
-import NavBarButton from './NavBarButton';
-import { homeIcon, notificationsIcon, profileIcon } from './data';
-import { DocumentIcon } from '@heroicons/react/24/outline';
-import UserContext from '../../contexts/UserContext';
-import { Role } from '../../data/CONSTANTS';
+import { useContext } from "react";
+import NavBarButton from "./NavBarButton";
+import { homeIcon, notificationsIcon, profileIcon } from "./data";
+import { DocumentIcon, HomeIcon } from "@heroicons/react/24/outline";
+import UserContext from "../../contexts/UserContext";
+import { Role } from "../../data/CONSTANTS";
+import {
+  Home,
+  Login,
+  Inventory2,
+  Backup,
+  Create,
+  FolderSpecialOutlined,
+} from "@mui/icons-material";
 
 export default function NavBar() {
   //get the user state from the context
@@ -11,37 +19,27 @@ export default function NavBar() {
   return (
     <nav className="flex flex-col gap-5 border-r-[1px] px-2 py-4 min-h-screen items-center tablet:flex lg:px-8">
       <div className="px-4">
-        <DocumentIcon className="w-6 h-6" />
+        <FolderSpecialOutlined />
         <p>DocManager</p>
       </div>
       <div className="space-y-3">
+        <NavBarButton Icon={Home} name="Home" active={true} path="/" />
+        <NavBarButton Icon={Login} name="Login" active={false} path="/login" />
         <NavBarButton
-          Icon={DocumentIcon}
-          name="Home"
-          active={true}
-          path="/home"
-        />
-        <NavBarButton
-          Icon={DocumentIcon}
-          name="Login"
-          active={false}
-          path="/login"
-        />
-        <NavBarButton
-          Icon={DocumentIcon}
+          Icon={Inventory2}
           name="Documents"
           active={false}
           path="/documents"
         />
         <NavBarButton
-          Icon={DocumentIcon}
+          Icon={Backup}
           name="Upload"
           active={false}
           path="/upload"
         />
         {user?.role === Role.MANAGER && (
           <NavBarButton
-            Icon={DocumentIcon}
+            Icon={Create}
             name="Create Task"
             active={false}
             path="/create-task"

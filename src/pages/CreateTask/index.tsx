@@ -1,15 +1,15 @@
-import { useState, useEffect, useContext } from 'react';
-import Layout from '../../components/Layout';
+import { useState, useEffect, useContext } from "react";
+import Layout from "../../components/Layout";
 import {
   API,
   CREATE_TASK_ROUTE,
   DOCUMENTS_LIST_ROUTE,
   EMPLOYEES_ROUTE,
-} from '../../data/CONSTANTS';
-import axios from 'axios';
-import { Document, Employee } from '../../data/types';
-import { useNavigate } from 'react-router-dom';
-import UserContext from '../../contexts/UserContext';
+} from "../../data/CONSTANTS";
+import axios from "axios";
+import { Document, Employee } from "../../data/types";
+import { useNavigate } from "react-router-dom";
+import UserContext from "../../contexts/UserContext";
 
 //function component for creating a task if the user is a manager
 export default function CreateTask() {
@@ -21,8 +21,8 @@ export default function CreateTask() {
   const [employeeAssigned, setEmployeeAssigned] = useState<Employee>(
     {} as Employee
   );
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   //states for the form data from backend: document and employee lists
   const [docList, setDocList] = useState<Document[]>([]);
@@ -31,7 +31,7 @@ export default function CreateTask() {
   async function getDocuments() {
     //get the document list from the backend and store them in state
     let config = {
-      method: 'get',
+      method: "get",
       maxBodyLength: Infinity,
       url: API + DOCUMENTS_LIST_ROUTE,
     };
@@ -43,7 +43,7 @@ export default function CreateTask() {
   async function getEmployees() {
     //get the employee list from the backend and store them in state
     let config = {
-      method: 'get',
+      method: "get",
       maxBodyLength: Infinity,
       url: API + EMPLOYEES_ROUTE + user?.id,
     };
@@ -51,6 +51,7 @@ export default function CreateTask() {
       setEmployeeList(response.data);
     });
   }
+  console.log(employeeList);
 
   //function that will handle the document selection in form and save in ste doc state
   function handleDocumentSelection(docId: string) {
@@ -95,11 +96,11 @@ export default function CreateTask() {
     console.log(createTaskDto);
 
     let config = {
-      method: 'post',
+      method: "post",
       maxBodyLength: Infinity,
       url: API + CREATE_TASK_ROUTE,
       header: {
-        Authorization: 'Bearer ' + user?.jwtToken,
+        Authorization: "Bearer " + user?.jwtToken,
       },
       data: createTaskDto,
     };
@@ -107,7 +108,7 @@ export default function CreateTask() {
     axios.request(config).then((response) => {
       //if the response is ok, redirect to the home page
       if (response.status === 200) {
-        navigator('/home');
+        navigator("/home");
       }
     });
   }
@@ -119,7 +120,7 @@ export default function CreateTask() {
 
   return (
     <Layout>
-      <div className="flex flex-col divide-y m-8 border-solid border-2 rounded-lg max-w-lg h-fit">
+      <div className="flex flex-col divide-y m-8 border-solid border-2 rounded-lg h-fit">
         <div className="mx-auto my-2">
           <span>Create task</span>
         </div>
@@ -167,7 +168,7 @@ export default function CreateTask() {
                 {employeeList.map((employee, index) => {
                   return (
                     <option key={index} value={employee.id}>
-                      {employee.firstName + ' ' + employee.lastName}
+                      {employee.firstName + " " + employee.lastName}
                     </option>
                   );
                 })}

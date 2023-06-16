@@ -1,6 +1,6 @@
-import Pagination from '../../Pagination';
-import Search from '../../Search';
-import { Document } from '../../../data/types';
+import Pagination from "../../Pagination";
+import Search from "../../Search";
+import { Document } from "../../../data/types";
 
 export default function DocumentsTable({
   columns,
@@ -9,6 +9,19 @@ export default function DocumentsTable({
   columns: string[];
   rows: Document[];
 }) {
+  function formatDate(date: string) {
+    const dateObj = new Date(date);
+    const formatDate = new Intl.DateTimeFormat("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false,
+    });
+    return formatDate.format(dateObj);
+  }
   return (
     <div className="relative overflow-x-auto mx-2">
       <Search />
@@ -55,13 +68,14 @@ export default function DocumentsTable({
               >
                 {row.docName}
               </th>
-              <td className="px-6 py-4">{row.docType}</td>
-              <td className="px-6 py-4">{row.uploadDate}</td>
+              <td className="px-6 py-4">{formatDate(row.uploadDate)}</td>
               <td className="px-6 py-4">
-                {row.finishDate ? row.finishDate : 'In progress'}
+                {row.finishDate ? row.finishDate : "In progress"}
               </td>
               <td className="px-6 py-4">download</td>
-              <td className="px-6 py-4">{row.author.email}</td>
+              <td className="px-6 py-4">
+                {row.author.firstName + " " + row.author.lastName}
+              </td>
               <td className="flex items-center px-6 py-4 space-x-3">
                 <a
                   href="#"
